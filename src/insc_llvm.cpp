@@ -1,10 +1,9 @@
 #include <cstdio>
-#include <cstring>
 #include <string>
 #include <sstream>
 #include <iostream>
 #include <unordered_map>
-#include <algorithm> // std::max
+#include <cstdlib>
 
 #include "Parser.H"
 #include "Absyn.H"
@@ -12,7 +11,7 @@
 #include "Printer.H"
 
 // -----------------------------------------------------------------------------------
-// alloca i32
+// vars: one alloca per variable
 struct VarSlots {
     std::unordered_map<std::string, int> slot;
     int next_slot = 1;
@@ -58,7 +57,7 @@ struct LLEmitter {
     void emit(const std::string& s) { buf << s << "\n"; }
     std::string tmp() { return "%t" + std::to_string(++temp); }
 
-    // GEP do &"%d\n"
+    // GEP for &"%d\n"
     std::string fmt_gep()
     {
         std::string t = tmp();
@@ -228,6 +227,7 @@ int main(int argc, char* argv[])
         E.emit("  %" + name + " = alloca i32");
     }
 
+    // body
     gen_body(tree, E, vs);
 
     // end
@@ -244,7 +244,7 @@ int main(int argc, char* argv[])
     }
     std::cout << "Zapisano: " << llpath << "\n";
 
-    // llvm-as for .bc
+    // llvm-as for .bc (assemble)
     const std::string out = outdir.empty() ? "." : outdir;
     std::string cmd = "llvm-as -o \"" + bcpath + "\" \"" + llpath + "\"";
     int code = std::system(cmd.c_str());
