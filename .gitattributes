@@ -1,0 +1,6 @@
+* text=auto
+*.sh     text eol=lf
+Makefile text eol=lf
+*.cf     text eol=lf
+*.j      text eol=lf
+*.java   text eol=lf

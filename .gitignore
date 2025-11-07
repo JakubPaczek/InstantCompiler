@@ -1,0 +1,9 @@
+# binaria
+insc_jvm
+insc_llvm
+
+# produkty kompilacji IR/JVM
+*.ll
+*.bc
+*.j
+*.class
