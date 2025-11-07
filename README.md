@@ -99,3 +99,14 @@ lli examples/test07.bc
 -   llvm (w mysys2: pacman -S mingw-w64-ucrt-x86_64-llvm)
 
 ---
+
+## Pakowanie do tar:
+
+tar.exe -czf InstantCompiler.tgz `  --exclude=.git`
+--exclude=.vscode `  --exclude='*.o'`
+--exclude='_.obj' `
+--exclude='_.exe' `  --exclude='*.class'`
+--exclude='_.j' `
+--exclude='_.ll' `  --exclude='*.bc'`
+--exclude='\*.tgz' `
+InstantCompiler
