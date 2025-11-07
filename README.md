@@ -1,22 +1,36 @@
 # InstantCompiler
 
-Kompilator języka **Instant** do **JVM** (w przyszłości także LLVM).  
-Projekt realizowany w języku C++ z wykorzystaniem **BNFC**, **Jasmin** oraz **Java Runtime** (dla metody `printInt`).
+Kompilator języka **Instant** do dwóch platform:
+
+-   **JVM** (Java Virtual Machine)
+-   **LLVM** (Low Level Virtual Machine)
+
+Projekt napisany w **C++17**, wykorzystujący:
+
+-   **BNFC** – generacja parsera i AST z pliku gramatyki `Instant.cf`
+-   **Jasmin** – assembler Javy do tworzenia plików `.class`
+-   **LLVM tools** – generacja kodu pośredniego `.ll` i bitkodu `.bc`
+-   **Java Runtime** – klasa `Runtime` z metodą `printInt(I)V`
 
 ---
 
 # Budowanie projektu
 
-## 1. Wygenerowanie parsera i AST z BNFC
+## 1. Generowanie parsera i AST (tylko przy pierwszym uruchomieniu)
+
+Jeśli w katalogu `src/frontend` nie ma plików `Absyn.C`, `Parser.C`, itp.,  
+należy najpierw wygenerować je przy pomocy **BNFC**:
 
 bnfc --cpp -m src/Instant.cf -o src/frontend  
 make -C src/frontend
 
-## 2. Kompilacja kompilatora JVM
+## 2. Kompilacja kompilatorów JVM i LLVM
 
+W katalogu głównym:  
 make  
-W katalogu głównym pojawi się plik wykonywalny:  
+pojawią się pliki wykonywalne:  
 ./insc_jvm
+./insc_llvm
 
 ---
 
@@ -57,20 +71,25 @@ javac -d lib lib/Runtime.java
 
 ## Uruchamianie programu Instant
 
-Przykład:  
+### Przykład:
+
 ./insc_jvm examples/test.ins
 
-Wynik:  
+### Wynik:
+
 Zapisano: examples/test.j  
 Utworzono: examples/test.class
 
-Aby uruchomić wygenerowaną klasę:  
+### Aby uruchomić wygenerowaną klasę:
+
 java -cp ".;lib;examples" test
 
-Przykład:  
+### Przykład:
+
 ./insc_llvm examples/test07.ins
 
-Wynik:  
+### Wynik:
+
 $ ./insc_llvm examples/test07.ins
 Plik otwarty poprawnie: examples/test07.ins
 Parsowanie powiodlo sie!
@@ -78,7 +97,8 @@ Wyjscie: examples/test07.ll oraz examples/test07.bc
 Zapisano: examples/test07.ll
 Utworzono: examples/test07.bc
 
-Aby uruchomić wygenerowaną klasę:  
+### Aby uruchomić wygenerowaną klasę:
+
 lli examples/test07.bc
 
 # Użyte materiały i inspiracje
@@ -86,7 +106,7 @@ lli examples/test07.bc
 -   [Sethi–Ullman Algorithm](https://en.wikipedia.org/wiki/Sethi%E2%80%93Ullman_algorithm)
 -   [lolzdev – I made a C compiler in C](https://www.youtube.com/watch?v=UW8LgC-S_co)
 -   [Pixeled – Creating a Compiler playlist](https://www.youtube.com/watch?v=vcSijrRsrY0&list=PLUDlas_Zy_qC7c5tCgTMYq2idyyT241qs)
--   Wsparcie narzędziowe: Makefile, ścieżki, struktura projektu i opracowanie README przygotowane z pomocą ChatGPT
+-   Wsparcie narzędziowe, struktura projektu oraz część dokumentacji przygotowane z pomocą ChatGPT (organizacja kodu, Makefile, README).
 
 ---
 
@@ -96,7 +116,7 @@ lli examples/test07.bc
 -   BNFC
 -   Jasmin (`lib/jasmin.jar`)
 -   Java 11+ (JRE/JDK)
--   llvm (w mysys2: pacman -S mingw-w64-ucrt-x86_64-llvm)
+-   llvm, lli (na mysys2: pacman -S mingw-w64-ucrt-x86_64-llvm)
 
 ---
 
