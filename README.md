@@ -120,17 +120,6 @@ lli examples/test07.bc
 
 ---
 
-## Pakowanie do tar:
-
-tar.exe -czf InstantCompiler.tgz `  --exclude=.git`
---exclude=.vscode `  --exclude='*.o'`
---exclude='_.obj' `
---exclude='_.exe' `  --exclude='*.class'`
---exclude='_.j' `
---exclude='_.ll' `  --exclude='*.bc'`
---exclude='\*.tgz' `
-InstantCompiler
-
 ## Github:
 
 https://github.com/JakubPaczek/InstantCompiler
